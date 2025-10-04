@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fetchuser = require("../middleware/fetchuser");
 
-// FIXED: Use environment variable instead of hardcoded JWT secret
+
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // ROUTE 1: Creating a user using: POST "/api/auth/createuser"
@@ -29,7 +29,7 @@ router.post(
     }
     
     try {
-      // FIXED: Removed 'success' from findOne query - it was causing issues
+
       let user = await User.findOne({ email: req.body.email });
       if (user) {
         return res
@@ -37,7 +37,7 @@ router.post(
           .json({ success, error: "A user with this email already exists" });
       }
       
-      // FIXED: Use genSalt instead of genSaltSync for better async handling
+
       const salt = await bcrypt.genSalt(10);
       const secPass = await bcrypt.hash(req.body.password, salt);
 
